@@ -4,7 +4,6 @@ var User = require('../models/user');
 var jwt = require('jsonwebtoken');
 var mongoose=require('mongoose');
 var db=mongoose.connection;
-var JSON = require('circular-json');
 
 router.get('/',(req,res)=>{res.send('hi')});
 router.post('/test',(req,res)=>{res.send({err:false,msg:'Teja rocks'})})
