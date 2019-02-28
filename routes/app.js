@@ -4,9 +4,9 @@ var User = require('../models/user');
 var jwt = require('jsonwebtoken');
 var mongoose=require('mongoose');
 var db=mongoose.connection;
+var JSON = require('circular-json');
 
-router.get('/',(req,res)=>{res.send('hi')});
-router.post('/test',(req,res)=>{res.send({err:false,msg:'Teja rocks'})})
+
 router.post('/register',  function(req,res,next){
   console.log('hi');
   console.log(req.body.email);
@@ -100,34 +100,35 @@ var time = hh + ":" + mm + ":" + ss;
     }
     if(tokendata){
       decodedToken = tokendata;
-    }
-  })
-  const user=decodedToken.email+'_composed';
-  const user1=req.body.to+'_recieved';
-  db.collection(user).insertOne({
-    reciever:req.body.to,
-    subject:req.body.subject,
-    message:req.body.message,
-    forward:false,
-    reply:false,
-    starred:false,
-    date:today,
-    time:time
+      const user=decodedToken.email+'_composed';
+    const user1=req.body.to+'_recieved';
+    db.collection(user).insertOne({
+      reciever:req.body.to,
+      subject:req.body.subject,
+      message:req.body.message,
+      forward:false,
+      reply:false,
+      starred:false,
+      date:today,
+      time:time
+    });
+
+    db.collection(user1).insertOne({
+      recieved_mail:decodedToken.email,
+      subject:req.body.subject,
+      message:req.body.message,
+      seen:false,
+      starred:false,
+      date:today,
+      time:time
+
+    });
+
+    return res.status(200).json({message:'sucess'});
+
+      }
+    })
   });
-
-  db.collection(user1).insertOne({
-    recieved_mail:decodedToken.email,
-    subject:req.body.subject,
-    message:req.body.message,
-    seen:false,
-    starred:false,
-    date:today,
-    time:time
-
-  });
-
-  return res.status(200).json({message:'sucess'});
-});
 
 
 
@@ -141,15 +142,15 @@ router.get('/inbox',function(req,res){
     }
     if(tokendata){
       decodedToken = tokendata;
+      const user=decodedToken.email+'_recieved';
+      // res.send(['hii','hello']);
+      db.collection(user).find().toArray(function(err,views){
+        if(err)
+          console.log(err);
+        else
+          res.json(views);
+      });
     }
-  });
-  const user=decodedToken.email+'_recieved';
-  // res.send(['hii','hello']);
-  db.collection(user).find().toArray(function(err,views){
-    if(err)
-      console.log(err);
-    else
-      res.json(views);
   });
 });
 
@@ -161,15 +162,16 @@ router.get('/sent',function(req,res){
     }
     if(tokendata){
       decodedToken = tokendata;
+      const user=decodedToken.email+'_composed';
+      db.collection(user).find().toArray(function(err,views){
+        if(err)
+          console.log(err);
+        else
+          res.json(views);
+      });
     }
   });
-  const user=decodedToken.email+'_composed';
-  db.collection(user).find().toArray(function(err,views){
-    if(err)
-      console.log(err);
-    else
-      res.json(views);
-  });
+
 });
 
 
