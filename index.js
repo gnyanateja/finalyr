@@ -4,7 +4,7 @@ var usersRouter = require('./routes/app');
 
 // add mongoose
  var mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://narutoteja:teja@cluster0-0q64p.mongodb.net/test?retryWrites=true/pmail',{useNewUrlParser: true});
+mongoose.connect('mongodb+srv://narutoteja:teja@cluster0-0q64p.mongodb.net/pmail?retryWrites=true',{useNewUrlParser: true});
 
 var app = express();
 app.use(express.json());
