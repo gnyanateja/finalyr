@@ -4,7 +4,7 @@ var User = require('../models/user');
 var jwt = require('jsonwebtoken');
 var mongoose=require('mongoose');
 var db=mongoose.connection;
-var JSON = require('circular-json');
+
 
 
 router.post('/register',  function(req,res,next){
