@@ -39,7 +39,7 @@ router.post('/login', function(req,res,next){
           // generate token
           let token = jwt.sign({email:doc.email},'secret', {expiresIn : '3h'});
 
-          return res.status(200).json(token);
+          return res.status(200).send({'token':token});
 
       } else {
         return res.status(501).json({message:' Invalid Credentials'});
