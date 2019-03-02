@@ -61,7 +61,7 @@ router.get('/validateEmail',function(req,res){
     if(err)
     console.log(err);
   else
-    res.send({"mails":mails});
+    res.json(mails);
   });
 });
 
