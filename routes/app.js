@@ -93,7 +93,7 @@ if (mm < 10) {
 var today = dd + '/' + mm + '/' + yyyy;
 var time = hh + ":" + mm + ":" + ss;
 
-  let token = req.query.token;
+  let token = req.body.token;
   jwt.verify(token,'secret', function(err, tokendata){
     if(err){
       return res.status(400).send({"message":"Unauthorized request"});
