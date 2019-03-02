@@ -96,7 +96,7 @@ var time = hh + ":" + mm + ":" + ss;
   let token = req.query.token;
   jwt.verify(token,'secret', function(err, tokendata){
     if(err){
-      return res.status(400).json({message:' Unauthorized request'});
+      return res.status(400).send({"message":"Unauthorized request"});
     }
     if(tokendata){
       decodedToken = tokendata;
@@ -124,7 +124,7 @@ var time = hh + ":" + mm + ":" + ss;
 
     });
 
-    return res.status(200).json({message:'sucess'});
+    return res.status(200).send({"message":"sucess"});
 
       }
     })
