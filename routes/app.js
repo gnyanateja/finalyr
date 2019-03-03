@@ -179,7 +179,7 @@ router.post('/sent',function(req,res){
 
 router.post('/email',function(req,res){
     var mail=req.body.email;
-      db.collection('user').find({email:mail},function(err,us){
+      db.collection('pmail_users').find({email:mail},function(err,us){
         if(err){
           console.log(err);
         }
