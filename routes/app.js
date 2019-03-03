@@ -138,7 +138,7 @@ router.get('/inbox',function(req,res){
   let token = req.body.token;
   jwt.verify(token,'secret', function(err, tokendata){
     if(err){
-      return res.status(400).send({"message":"Unauthorized request"});
+      return res.status(400).send({"message":err});
     }
     if(tokendata){
       decodedToken = tokendata;
