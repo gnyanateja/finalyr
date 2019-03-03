@@ -135,7 +135,7 @@ var time = hh + ":" + mm + ":" + ss;
 
 router.get('/inbox',function(req,res){
 
-  let token = req.body.token;
+  let token = req.params.token;
   jwt.verify(token,'secret', function(err, tokendata){
     if(err){
       return res.status(400).send({"message":token});
