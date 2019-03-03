@@ -56,7 +56,7 @@ router.post('/login', function(req,res,next){
 })
 
 
-router.get('/validateEmail',function(req,res){
+router.post('/validateEmail',function(req,res){
   db.collection('pmail_users').find({"email":req.body.email}).toArray(function(err,mails){
     if(err)
     console.log(err);
@@ -65,7 +65,7 @@ router.get('/validateEmail',function(req,res){
   });
 });
 
-router.get('/validatePhone',function(req,res){
+router.post('/validatePhone',function(req,res){
   db.collection('pmail_users').find({"phone_no":req.body.phone_no}).toArray(function(err,nos){
     if(err)
     console.log(err);
