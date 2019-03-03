@@ -229,7 +229,24 @@ router.post('/deleteInb',function(req,res){
 });
 
 
-
+router.post('/deleteAcc',function(req,res){
+  let token = req.body.token;
+  jwt.verify(token,'secret', function(err, tokendata){
+    if(err){
+      return res.status(400).send({"message":"Unauthorized request"});
+    }
+    if(tokendata){
+      decodedToken = tokendata;
+      const user=decodedToken.email;
+      db.collection(user).findOneAndDelete({email:user},function(err,us){
+        if(err)
+        console.log(err);
+        else
+        res.send({"message":"ok"});
+      })
+    }
+})
+});
 
 router.get('/username', verifyToken, function(req,res,next){
   return res.status(200).send({"email":decodedToken.email});
