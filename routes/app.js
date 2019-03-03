@@ -184,7 +184,7 @@ router.post('/email',function(req,res){
           console.log(err);
         }
         else{
-          res.send({"phone_no":user.values(4)});
+          res.send({"phone_no":user});
         }
       })
 
