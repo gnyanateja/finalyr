@@ -138,7 +138,7 @@ router.get('/inbox',function(req,res){
   let token = req.body.token;
   jwt.verify(token,'secret', function(err, tokendata){
     if(err){
-      return res.status(400).json({message:' Unauthorized request'});
+      return res.status(400).send({"message":"Unauthorized request"});
     }
     if(tokendata){
       decodedToken = tokendata;
@@ -148,7 +148,7 @@ router.get('/inbox',function(req,res){
         if(err)
           console.log(err);
         else
-          res.json(views);
+          res.send({"views":views});
       });
     }
   });
@@ -158,7 +158,7 @@ router.get('/sent',function(req,res){
   let token = req.body.token;
   jwt.verify(token,'secret', function(err, tokendata){
     if(err){
-      return res.status(400).json({message:' Unauthorized request'});
+      return res.status(400).send({"message":"Unauthorized request"});
     }
     if(tokendata){
       decodedToken = tokendata;
@@ -167,7 +167,7 @@ router.get('/sent',function(req,res){
         if(err)
           console.log(err);
         else
-          res.json(views);
+        res.send({"views":views});
       });
     }
   });
@@ -190,16 +190,16 @@ router.get('/sent',function(req,res){
 
 
 router.get('/username', verifyToken, function(req,res,next){
-  return res.status(200).json(decodedToken.email);
+  return res.status(200).send({"email":decodedToken.email});
 })
 
 var decodedToken='';
 function verifyToken(req,res,next){
-  let token = req.query.token;
+  let token = req.body.token;
 
   jwt.verify(token,'secret', function(err, tokendata){
     if(err){
-      return res.status(400).json({message:' Unauthorized request'});
+      return res.status(400).send({"message":"Unauthorized request"});
     }
     if(tokendata){
       decodedToken = tokendata;
