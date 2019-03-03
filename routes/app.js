@@ -177,6 +177,19 @@ router.post('/sent',function(req,res){
 
 
 
+router.post('/email',function(req,res){
+    var mail=req.body.email;
+      db.collection('user').find({email:mail},function(err,us){
+        if(err){
+          console.log(err);
+        }
+        else{
+          res.send({"phone_no":us.phone_no});
+        }
+      })
+
+})
+
 
 
 
@@ -207,6 +220,7 @@ function verifyToken(req,res,next){
     }
   })
 }
+
 
 
 
