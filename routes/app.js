@@ -179,12 +179,12 @@ router.post('/sent',function(req,res){
 
 router.post('/email',function(req,res){
     var mail=req.body.email;
-      db.collection('pmail_users').find({email:mail},function(err,us){
+      db.collection('pmail_users').find({email:mail},function(err,user){
         if(err){
           console.log(err);
         }
         else{
-          res.send({"phone_no":us.phone_no});
+          res.send({"phone_no":user.phone_no});
         }
       })
 
