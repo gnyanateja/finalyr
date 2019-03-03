@@ -190,6 +190,21 @@ router.post('/email',function(req,res){
 
 })
 
+router.post('/update_pass',function(req,res){
+  var mail=req.body.mail;
+  db.collection('user').findAndModify(
+    {email:mail},
+    [['_id','asc']],  // sort order
+    {$set: {password: User.hashPassword(req.body.password)}},
+    {}, // options
+    function(err, object) {
+        if (err){
+            console.log(err);  // returns error if no matching object found
+        }else{
+            res.send({"message":"ok"});
+        }
+    });
+})
 
 
 
