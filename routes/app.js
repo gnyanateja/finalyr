@@ -133,7 +133,7 @@ var time = hh + ":" + mm + ":" + ss;
 
 
 
-router.get('/inbox',function(req,res){
+router.post('/inbox',function(req,res){
 
   let token = req.body.token;
   jwt.verify(token,'secret', function(err, tokendata){
