@@ -154,7 +154,7 @@ router.post('/inbox',function(req,res){
   });
 });
 
-router.get('/sent',function(req,res){
+router.post('/sent',function(req,res){
   let token = req.body.token;
   jwt.verify(token,'secret', function(err, tokendata){
     if(err){
