@@ -135,7 +135,7 @@ var time = hh + ":" + mm + ":" + ss;
 
 router.get('/inbox',function(req,res){
 
-  let token = req.query.token;
+  let token = req.body.token;
   jwt.verify(token,'secret', function(err, tokendata){
     if(err){
       return res.status(400).json({message:' Unauthorized request'});
@@ -155,7 +155,7 @@ router.get('/inbox',function(req,res){
 });
 
 router.get('/sent',function(req,res){
-  let token = req.query.token;
+  let token = req.body.token;
   jwt.verify(token,'secret', function(err, tokendata){
     if(err){
       return res.status(400).json({message:' Unauthorized request'});
