@@ -258,7 +258,7 @@ router.post('/deleteAcc',function(req,res){
     if(tokendata){
       decodedToken = tokendata;
       const user=decodedToken.email;
-      db.collection(user).deleteOne({email:user},function(err,us){
+      db.collection('pmail_users').deleteOne({email:user},function(err,us){
         if(err)
         console.log(err);
         else
