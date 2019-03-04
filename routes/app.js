@@ -165,7 +165,7 @@ router.post('/sent',function(req,res){
       const user=decodedToken.email+'_composed';
       db.collection(user).find().toArray(function(err,views){
         if(err)
-          console.log(err);
+        res.send({"views":""});
         else
         res.send({"views":views});
       });
