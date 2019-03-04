@@ -216,7 +216,7 @@ router.post('/deleteInb',function(req,res){
     if(tokendata){
       decodedToken = tokendata;
       const user=decodedToken.email+'_recieved';
-      db.collection(user).remove({recieved_mail:req.body.rec},{subject:req.body.subject},
+      db.collection(user).deleteMany({recieved_mail:req.body.rec},{subject:req.body.subject},
         {message:req.body.message}).toArray(function(err,views){
         if(err)
           console.log(err);
