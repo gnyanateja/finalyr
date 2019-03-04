@@ -195,8 +195,8 @@ router.post('/update_pass',function(req,res){
   db.collection('user').findAndModify(
     {email:mail},
     [['_id','asc']],  // sort order
-    {$set: {password: User.hashPassword(req.body.password)}},
-    {}, // options
+    {"$set": {"password": User.hashPassword(req.body.password)}},
+    {"upsert":false}, // options
     function(err, object) {
         if (err){
             console.log(err);  // returns error if no matching object found
