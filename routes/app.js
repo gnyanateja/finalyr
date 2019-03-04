@@ -42,7 +42,7 @@ router.post('/login', function(req,res,next){
           return res.status(200).send({'token':token});
 
       } else {
-        return res.status(501).json({message:' Invalid Credentials'});
+        return res.status(501).send({token:""});
       }
     }
     else {
