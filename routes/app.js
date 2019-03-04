@@ -227,6 +227,28 @@ router.post('/deleteInb',function(req,res){
 });
 
 
+
+
+router.post('/deleteCom',function(req,res){
+  let token = req.body.token;
+  jwt.verify(token,'secret', function(err, tokendata){
+    if(err){
+      return res.status(400).send({"message":"Unauthorized request"});
+    }
+    if(tokendata){
+      decodedToken = tokendata;
+      const user=decodedToken.email+'_composed';
+      db.collection(user).deleteMany({subject:req.body.subject},function(err,views){
+        if(err)
+          console.log(err);
+        else
+        res.send({"message":"ok"});
+      })
+    }
+  });
+});
+
+
 router.post('/deleteAcc',function(req,res){
   let token = req.body.token;
   jwt.verify(token,'secret', function(err, tokendata){
