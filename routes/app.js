@@ -192,7 +192,7 @@ router.post('/email',function(req,res){
 
 router.post('/update_pass',function(req,res){
   var mail=req.body.mail;
-  db.collection('user').findAndModify(
+  db.collection('pmail_users').findAndModify(
     {email:mail},
     [['_id','asc']],  // sort order
     {"$set": {"password": User.hashPassword(req.body.password)}},
