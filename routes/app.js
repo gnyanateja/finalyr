@@ -133,15 +133,9 @@ var time = hh + ":" + mm + ":" + ss;
 
 
   router.post('/starred',function(req,res){
-    let token = req.body.token;
-  jwt.verify(token,'secret', function(err, tokendata){
-    if(err){
-      return res.status(400).send({"message":"Unauthorized request"});
-    }
-    if(tokendata){
-      decodedToken = tokendata;
-      const user=decodedToken.email+'_composed';
-      const user1=req.body.to+'_recieved';
+      let email = req.body.email;
+      const user=email+'_composed';
+      const user1=email+'_recieved';
       let msg=req.body.message;
       let sub=req.body.subject;
       let t=req.body.choice;
@@ -176,10 +170,8 @@ var time = hh + ":" + mm + ":" + ss;
             }
           )
       }
-    }
-  });
-    
     });
+
     
 
 
