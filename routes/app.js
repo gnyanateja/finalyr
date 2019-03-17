@@ -183,6 +183,41 @@ var time = hh + ":" + mm + ":" + ss;
   });
 
 
+  router.post('/getStarred',function(req,res){
+    let token = req.body.token;
+    jwt.verify(token,'secret', function(err, tokendata){
+      if(err){
+        return res.status(400).send({"message":token});
+      }
+      if(tokendata){
+        decodedToken = tokendata;
+        const user=decodedToken.email+'_composed';
+        const user1=decodedToken.email+'_recieved';
+        var temp_mails;
+        db.collection(user).find({starred:true}).toArray(function(err,mails){
+          if(err)
+            console.log(err);
+          else
+          {
+          db.collection(user1).find({starred:true}).toArray(function(err,mail){
+          if(err)
+            console.log(err);
+          else
+          {
+            mail.forEach(function(err,item){
+              if(err)
+                console.log(err);
+              else
+                mails.push(item);
+            });
+          }
+        });
+      }
+    });
+  }
+    });
+  });
+
 
   router.post('/starred',function(req,res){
     let token = req.body.token;
@@ -192,7 +227,7 @@ var time = hh + ":" + mm + ":" + ss;
       }
       if(tokendata){
         decodedToken = tokendata;
-        const user=decodedToken.email+'_recieved';
+        const user=decodedToken.email+'_composed';
         const user1=decodedToken.email+'_recieved';
         let msg=req.body.message;
         let sub=req.body.subject;
