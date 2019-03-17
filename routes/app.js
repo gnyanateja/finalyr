@@ -142,7 +142,7 @@ var time = hh + ":" + mm + ":" + ss;
       let person=req.body.person;
       if(t=="0"){
         db.collection(user).findAndModify(
-          {reciever:person,subject:sub,message:msg},
+          {reciever:person},{subject:sub},{message:msg},
           [['_id','asc']],  // sort order
           {"$set": {"starred": true}},
           {"upsert":false}, // options
