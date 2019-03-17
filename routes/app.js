@@ -168,7 +168,7 @@ var time = hh + ":" + mm + ":" + ss;
               if (err){
                   console.log(err);  // returns error if no matching object found
               }else{
-                  res.send({"message":"ok"});
+                  res.send({"message":t});
               }
             }
           )
