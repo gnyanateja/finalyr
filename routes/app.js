@@ -143,7 +143,7 @@ var time = hh + ":" + mm + ":" + ss;
       console.log(t);
      
         console.log("hi");
-        if(t=="1"){
+        if(t==1){
         db.collection(user).findAndModify(
           {reciever:person},
           [['_id','asc']],  // sort order
