@@ -140,6 +140,7 @@ var time = hh + ":" + mm + ":" + ss;
       let sub=req.body.subject;
       let t=req.body.choice;
       let person=req.body.person;
+      console.log(t);
       if(t=="0"){
         console.log("hi");
         db.collection(user).findAndModify(
