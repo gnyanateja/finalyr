@@ -145,7 +145,7 @@ var time = hh + ":" + mm + ":" + ss;
         console.log("hi");
         if(t==1){
         db.collection(user).findAndModify(
-          {reciever:person},
+          {reciever:person,subject:sub,message:msg},
           [['_id','asc']],  // sort order
           {"$set": {"starred": true}},
           {"upsert":false}, // options
@@ -153,12 +153,12 @@ var time = hh + ":" + mm + ":" + ss;
               if (err){
                   console.log(err);  // returns error if no matching object found
               }else{
-                  res.send({"message":t});
+                  res.send({"message":"choice"});
               }
             }
           )
           }
-      else{
+      else if(t==0){
         db.collection(user1).findAndModify(
           {recieved_mail:person,subject:sub,message:msg},
           [['_id','asc']],  // sort order
@@ -168,7 +168,7 @@ var time = hh + ":" + mm + ":" + ss;
               if (err){
                   console.log(err);  // returns error if no matching object found
               }else{
-                  res.send({"message":req.body.email});
+                  res.send({"message":"ok"});
               }
             }
           )
