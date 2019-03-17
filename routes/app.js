@@ -161,46 +161,51 @@ var time = hh + ":" + mm + ":" + ss;
 
 
   router.post('/starred',function(req,res){
-      let email = req.body.email;
-      const user=email+'_composed';
-      const user1=email+'_recieved';
-      let msg=req.body.message;
-      let sub=req.body.subject;
-      let t=req.body.choice;
-      let person=req.body.person;
-      console.log(email);
-     
-        console.log("hi");
-        if(t=="1"){
-        db.collection(user).findAndModify(
-          {reciever:person,subject:sub,message:msg},
-          [['_id','asc']],  // sort order
-          {"$set": {"starred": true}},
-          {"upsert":false}, // options
-          function(err, object) {
-              if (err){
-                  console.log(err);  // returns error if no matching object found
-              }else{
-                  res.send({"message":"ok"});
-              }
-            }
-          )
-          }
-      else if(t=="0"){
-        db.collection(user1).findAndModify(
-          {recieved_mail:person,subject:sub,message:msg},
-          [['_id','asc']],  // sort order
-          {"$set": {"starred": true}},
-          {"upsert":false}, // options
-          function(err, object) {
-              if (err){
-                  console.log(err);  // returns error if no matching object found
-              }else{
-                  res.send({"message":"ok"});
-              }
-            }
-          )
+    let token = req.body.token;
+    jwt.verify(token,'secret', function(err, tokendata){
+      if(err){
+        return res.status(400).send({"message":token});
       }
+      if(tokendata){
+        decodedToken = tokendata;
+        const user=decodedToken.email+'_recieved';
+        const user1=decodedToken.email+'_recieved';
+        let msg=req.body.message;
+        let sub=req.body.subject;
+        let t=req.body.choice;
+        let person=req.body.person;
+      
+          console.log("hi");
+          if(t=="1"){
+          db.collection(user).findAndModify(
+            {reciever:person,subject:sub,message:msg},
+            [['_id','asc']],  // sort order
+            {"$set": {"starred": true}},
+            {"upsert":false}, // options
+            function(err, object) {
+                if (err){
+                    console.log(err);  // returns error if no matching object found
+                }else{
+                    res.send({"message":"ok"});
+                }
+              }
+            )
+            }
+        else if(t=="0"){
+          db.collection(user1).findAndModify(
+            {recieved_mail:person,subject:sub,message:msg},
+            [['_id','asc']],  // sort order
+            {"$set": {"starred": true}},
+            {"upsert":false}, // options
+            function(err, object) {
+                if (err){
+                    console.log(err);  // returns error if no matching object found
+                }else{
+                    res.send({"message":"ok"});
+                }
+              }
+            )
+        }
     });
 
     
