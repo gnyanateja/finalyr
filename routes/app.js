@@ -152,23 +152,32 @@ var time = hh + ":" + mm + ":" + ss;
   });
 
   router.post('/update',function(req,res){
-    let email = req.body.email;
-    let first_name=req.body.first_name;
-    let last_name=req.body.last_name;
-    let phone_no=req.body.phone_no;
-    let gender=req.body.gender;
+    let token = req.body.token;
+    jwt.verify(token,'secret', function(err, tokendata){
+      if(err){
+        return res.status(400).send({"message":"Unauthorized request"});
+      }
+      if(tokendata){
+        decodedToken = tokendata;
+        const email=decodedToken.email;
+        let first_name=req.body.first_name;
+        let last_name=req.body.last_name;
+        let phone_no=req.body.phone_no;
+        let gender=req.body.gender;
 
-    db.collection('pmail_users').findAndModify(
-      {email:email},
-      [['_id','asc']],  // sort order
-      {"$set": {first_name:first_name,last_name:last_name,phone_no:phone_no,gender:gender}},
-      {"upsert":false}, // options
-      function(err, object) {
-          if (err){
-              console.log(err);  // returns error if no matching object found
-          }else{
-              res.send({"message":"ok"});
-          }
+        db.collection('pmail_users').findAndModify(
+          {email:email},
+          [['_id','asc']],  // sort order
+          {"$set": {first_name:first_name,last_name:last_name,phone_no:phone_no,gender:gender}},
+          {"upsert":false}, // options
+          function(err, object) {
+              if (err){
+                  console.log(err);  // returns error if no matching object found
+              }else{
+                  res.send({"message":"ok"});
+              }
+          });
+        }
       });
 
 
