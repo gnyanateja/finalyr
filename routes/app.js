@@ -163,12 +163,11 @@ var time = hh + ":" + mm + ":" + ss;
         let first_name=req.body.first_name;
         let last_name=req.body.last_name;
         let phone_no=req.body.phone_no;
-        let gender=req.body.gender;
 
         db.collection('pmail_users').findAndModify(
           {email:email},
           [['_id','asc']],  // sort order
-          {"$set": {first_name:first_name,last_name:last_name,phone_no:phone_no,gender:gender}},
+          {"$set": {first_name:first_name,last_name:last_name,phone_no:phone_no}},
           {"upsert":false}, // options
           function(err, object) {
               if (err){
@@ -335,6 +334,51 @@ router.post('/deleteInb',function(req,res){
 });
 
 
+router.post('/deletemail',function(req,res){
+
+  let token = req.body.token;
+ 
+  jwt.verify(token,'secret', function(err, tokendata){
+    if(err){
+      return res.status(400).send({"message":"Unauthorized request"});
+    }
+    if(tokendata){
+      decodedToken = tokendata;
+      const user=decodedToken.email+'_recieved';
+        const user1=decodedToken.email+'_recieved';
+        let msg=req.body.message;
+        let sub=req.body.subject;
+        let t=req.body.choice;
+        let person=req.body.person;
+      console.log("hi");
+          if(t=="1"){
+            const user3=decodedToken.email+'_trash';
+            
+            db.collection(user).deleteMany({recieved_mail:person,message:msg,subject:sub},function(err,views){
+              if(err)
+                console.log(err);
+              else
+              {
+              db.collection(user3).insert(views);
+              res.send({"message":"ok"});
+              
+              }
+            })
+          }   
+        else if(t=="0"){
+          db.collection(user).deleteMany({recieved_mail:person,message:msg,subject:sub},function(err,views){
+            if(err)
+              console.log(err);
+            else{
+              db.collection(user3).insert(views);
+              res.send({"message":"ok"});
+            }
+          })
+        }
+      }
+    });
+
+});
 
 
 router.post('/deleteCom',function(req,res){
