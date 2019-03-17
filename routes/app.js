@@ -132,7 +132,24 @@ var time = hh + ":" + mm + ":" + ss;
     })
   });
 
-
+  router.post('/getdetails',function(req,res){
+    let token = req.body.token;
+  jwt.verify(token,'secret', function(err, tokendata){
+    if(err){
+      return res.status(400).send({"message":"Unauthorized request"});
+    }
+    if(tokendata){
+      decodedToken = tokendata;
+      const email=decodedToken.email;
+      db.collection('pmail_users').find({email:email}).toArray(function(err,person){
+        if(err)
+          console.log(err);
+        else
+          res.send({"person":person});
+      });
+    }
+  });
+  });
 
   router.post('/update',function(req,res){
     let email = req.body.email;
