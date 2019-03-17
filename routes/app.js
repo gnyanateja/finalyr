@@ -5,32 +5,6 @@ var jwt = require('jsonwebtoken');
 var mongoose=require('mongoose');
 
 
-// Nodejs encryption with CTR
-const crypto = require('crypto');
-const algorithm = 'aes-256-cbc';
-const key = crypto.randomBytes(32);
-const iv = crypto.randomBytes(16);
-
-function encrypt(text) {
- let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
- let encrypted = cipher.update(text);
- encrypted = Buffer.concat([encrypted, cipher.final()]);
- return { iv: iv.toString('hex'), encryptedData: encrypted.toString('hex') };
-}
-
-function decrypt(text) {
- let iv = Buffer.from(text.iv, 'hex');
- let encryptedText = Buffer.from(text.encryptedData, 'hex');
- let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv);
- let decrypted = decipher.update(encryptedText);
- decrypted = Buffer.concat([decrypted, decipher.final()]);
- return decrypted.toString();
-}
-
-//var hw = encrypt("Some serious stuff")
-//console.log(hw)
-//console.log(decrypt(hw))
-
 var db=mongoose.connection;
 
 
@@ -70,7 +44,6 @@ router.post('/login', function(req,res,next){
           return res.status(200).send({'token':token});
 
       } else {
-        console.log(req.body.password);
         return res.status(501).send({token:""});
       }
     }
@@ -123,8 +96,6 @@ var today = dd + '/' + mm + '/' + yyyy;
 var time = hh + ":" + mm + ":" + ss;
 
   let token = req.body.token;
-  var message=req.body.message;
-  var cipher_text=encrypt(message);
   jwt.verify(token,'secret', function(err, tokendata){
     if(err){
       return res.status(400).send({"message":"Unauthorized request"});
@@ -136,7 +107,7 @@ var time = hh + ":" + mm + ":" + ss;
     db.collection(user).insertOne({
       reciever:req.body.to,
       subject:req.body.subject,
-      message:cipher_text,
+      message:req.body.message,
       forward:false,
       reply:false,
       starred:false,
@@ -147,7 +118,7 @@ var time = hh + ":" + mm + ":" + ss;
     db.collection(user1).insertOne({
       recieved_mail:decodedToken.email,
       subject:req.body.subject,
-      message:cipher_text,
+      message:req.body.message,
       seen:false,
       starred:false,
       date:today,
@@ -169,7 +140,7 @@ var time = hh + ":" + mm + ":" + ss;
     let last_name=req.body.last_name;
     let phone_no=req.body.phone_no;
     let gender=req.body.gender;
-    let password= req.body.password;
+    let password= User.hashPassword(req.body.password);
 
     db.collection('pmail_users').findAndModify(
       {email:email},
@@ -252,13 +223,8 @@ router.post('/inbox',function(req,res){
       db.collection(user).find().toArray(function(err,views){
         if(err)
           console.log(err);
-        else{
-          views.forEach(function(item){
-            item.message=decrypt(item.message);
-          });
-          console.log(views);
+        else
           res.send({"views":views});
-        }
       });
     }
   });
