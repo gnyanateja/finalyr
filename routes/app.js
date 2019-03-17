@@ -140,10 +140,10 @@ var time = hh + ":" + mm + ":" + ss;
       let sub=req.body.subject;
       let t=req.body.choice;
       let person=req.body.person;
-      console.log(t);
+      console.log(email);
      
         console.log("hi");
-        if(t==1){
+        if(t=="1"){
         db.collection(user).findAndModify(
           {reciever:person,subject:sub,message:msg},
           [['_id','asc']],  // sort order
@@ -153,12 +153,12 @@ var time = hh + ":" + mm + ":" + ss;
               if (err){
                   console.log(err);  // returns error if no matching object found
               }else{
-                  res.send({"message":"choice"});
+                  res.send({"message":"ok"});
               }
             }
           )
           }
-      else if(t==0){
+      else if(t=="0"){
         db.collection(user1).findAndModify(
           {recieved_mail:person,subject:sub,message:msg},
           [['_id','asc']],  // sort order
