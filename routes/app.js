@@ -132,6 +132,59 @@ var time = hh + ":" + mm + ":" + ss;
 
 
 
+  router.post('/starred',function(req,res){
+    let token = req.body.token;
+  jwt.verify(token,'secret', function(err, tokendata){
+    if(err){
+      return res.status(400).send({"message":"Unauthorized request"});
+    }
+    if(tokendata){
+      decodedToken = tokendata;
+      const user=decodedToken.email+'_composed';
+      const user1=req.body.to+'_recieved';
+      let msg=req.body.message;
+      let sub=req.body.subject;
+      let t=req.body.choice;
+      let person=req.body.person;
+      if(choice==0){
+        db.collection(user).findAndModify(
+          {reciever:person,subject:sub,message:msg},
+          [['_id','asc']],  // sort order
+          {"$set": {"starred": true}},
+          {"upsert":false}, // options
+          function(err, object) {
+              if (err){
+                  console.log(err);  // returns error if no matching object found
+              }else{
+                  res.send({"message":"ok"});
+              }
+            }
+          )
+      }
+      else if(choice==1){
+        db.collection(user1).findAndModify(
+          {recieved_mail:person,subject:sub,message:msg},
+          [['_id','asc']],  // sort order
+          {"$set": {"starred": true}},
+          {"upsert":false}, // options
+          function(err, object) {
+              if (err){
+                  console.log(err);  // returns error if no matching object found
+              }else{
+                  res.send({"message":"ok"});
+              }
+            }
+          )
+      }
+    }
+  });
+    
+    });
+    
+
+
+
+
 
 router.post('/inbox',function(req,res){
 
@@ -247,6 +300,7 @@ router.post('/deleteCom',function(req,res){
     }
   });
 });
+
 
 
 router.post('/deleteAcc',function(req,res){
