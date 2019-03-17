@@ -157,12 +157,11 @@ var time = hh + ":" + mm + ":" + ss;
     let last_name=req.body.last_name;
     let phone_no=req.body.phone_no;
     let gender=req.body.gender;
-    let password= User.hashPassword(req.body.password);
 
     db.collection('pmail_users').findAndModify(
       {email:email},
       [['_id','asc']],  // sort order
-      {"$set": {first_name:first_name,last_name:last_name,phone_no:phone_no,gender:gender,password: User.hashPassword(password)}},
+      {"$set": {first_name:first_name,last_name:last_name,phone_no:phone_no,gender:gender}},
       {"upsert":false}, // options
       function(err, object) {
           if (err){
