@@ -253,6 +253,9 @@ router.post('/inbox',function(req,res){
         if(err)
           console.log(err);
         else{
+          views.forEach(function(item){
+            item.message=decrypt(item.message);
+          });
           console.log(views);
           res.send({"views":views});
         }
