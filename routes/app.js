@@ -141,7 +141,7 @@ var time = hh + ":" + mm + ":" + ss;
       let t=req.body.choice;
       let person=req.body.person;
       console.log(t);
-      if(t=="0"){
+     
         console.log("hi");
         db.collection(user).findAndModify(
           {reciever:person},
@@ -156,8 +156,7 @@ var time = hh + ":" + mm + ":" + ss;
               }
             }
           )
-      }
-      else if(t=="1"){
+      if(t=="1"){
         db.collection(user1).findAndModify(
           {recieved_mail:person,subject:sub,message:msg},
           [['_id','asc']],  // sort order
