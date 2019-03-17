@@ -193,7 +193,7 @@ var time = hh + ":" + mm + ":" + ss;
         decodedToken = tokendata;
         const user=decodedToken.email+'_composed';
         const user1=decodedToken.email+'_recieved';
-        var temp_mails;
+        
         db.collection(user).find({starred:true}).toArray(function(err,mails){
           if(err)
             console.log(err);
@@ -207,8 +207,10 @@ var time = hh + ":" + mm + ":" + ss;
             mail.forEach(function(err,item){
               if(err)
                 console.log(err);
-              else
+              else{
                 mails.push(item);
+                res.send({"mails":mails});
+              }
             });
           }
         });
