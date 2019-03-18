@@ -200,20 +200,22 @@ var time = hh + ":" + mm + ":" + ss;
           else
           {
           db.collection(user1).find({starred:true}).toArray(function(err,mail){
+            console.log("ckeck1");
+            
           if(err)
             console.log(err);
           else
           {
-            mail.forEach(function(err,item){
-              if(err)
-                console.log(err);
-              else{
+            console.log("ckeck2");
+            mail.forEach(function(item){
+                console.log("ckeck3");
                 mails.push(item);
-                res.send({"mails":mails});
-              }
-            });
+                console.log("hi");
+              });
+              res.send({"mails":mails});
           }
         });
+        
       }
     });
   }
