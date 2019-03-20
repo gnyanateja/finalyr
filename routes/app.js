@@ -277,6 +277,51 @@ var time = hh + ":" + mm + ":" + ss;
 
 
 
+  
+  router.post('/seen',function(req,res){
+    let token = req.body.token;
+    jwt.verify(token,'secret', function(err, tokendata){
+      if(err){
+        return res.status(400).send({"message":token});
+      }
+      if(tokendata){
+        decodedToken = tokendata;
+        const user=decodedToken.email+'_recieved';
+        let msg=req.body.message;
+        let sub=req.body.subject;
+        let person=req.body.person;
+      
+          db.collection(user).findAndModify(
+            {reciever:person,subject:sub,message:msg},
+            [['_id','asc']],  // sort order
+            {"$set": {"seen": true}},
+            {"upsert":false}, // options
+            function(err, object) {
+                if (err){
+                    console.log(err);  // returns error if no matching object found
+                }else{
+                    res.send({"message":"ok"});
+                }
+              }
+            )
+            }
+    });
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 router.post('/inbox',function(req,res){
