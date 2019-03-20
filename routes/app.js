@@ -292,7 +292,7 @@ var time = hh + ":" + mm + ":" + ss;
         let person=req.body.person;
       
           db.collection(user).findAndModify(
-            {reciever:person,subject:sub,message:msg},
+            {recieved_mail:person,subject:sub,message:msg},
             [['_id','asc']],  // sort order
             {"$set": {"seen": true}},
             {"upsert":false}, // options
