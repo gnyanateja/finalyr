@@ -452,7 +452,7 @@ router.post('/deleteCom',function(req,res){
           console.log(err);
         else{
           const tr=decodedToken.email+'_trash';
-          db.collection(tr).insertMany(views);
+          db.collection(tr).insertOne(views);
         res.send({"message":"ok"});
         }
       })
