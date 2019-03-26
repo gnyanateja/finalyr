@@ -93,7 +93,7 @@ if (mm1 < 10) {
   mm1 = '0' + mm1;
 }
 var today = dd + '/' + mm1 + '/' + yyyy;
-var time = hh + ":" + mm + ":" + ss;
+var time = (hh+5) + ":" + (mm+30) + ":" + ss;
 
   let token = req.body.token;
   jwt.verify(token,'secret', function(err, tokendata){
