@@ -423,62 +423,19 @@ router.post('/deleteInb',function(req,res){
     if(tokendata){
       decodedToken = tokendata;
       const user=decodedToken.email+'_recieved';
-      db.collection(user).deleteMany({subject:req.body.subject},function(err,views){
+      db.collection(user).deleteMany({subject:req.body.subject,message:req.body.message},function(err,views){
         if(err)
           console.log(err);
-        else
+        else{
+          const tr=decodedToken.email+'_trash';
+          db.collection(tr).insertMany(views);
         res.send({"message":"ok"});
+        }
       })
     }
   });
 });
 
-
-router.post('/deletemail',function(req,res){
-
-  let token = req.body.token;
- 
-  jwt.verify(token,'secret', function(err, tokendata){
-    if(err){
-      return res.status(400).send({"message":"Unauthorized request"});
-    }
-    if(tokendata){
-      decodedToken = tokendata;
-      const user=decodedToken.email+'_recieved';
-        const user1=decodedToken.email+'_recieved';
-        let msg=req.body.message;
-        let sub=req.body.subject;
-        let t=req.body.choice;
-        let person=req.body.person;
-      console.log("hi");
-          if(t=="1"){
-            const user3=decodedToken.email+'_trash';
-            
-            db.collection(user).deleteMany({recieved_mail:person,message:msg,subject:sub},function(err,views){
-              if(err)
-                console.log(err);
-              else
-              {
-              db.collection(user3).insert(views);
-              res.send({"message":"ok"});
-              
-              }
-            })
-          }   
-        else if(t=="0"){
-          db.collection(user).deleteMany({recieved_mail:person,message:msg,subject:sub},function(err,views){
-            if(err)
-              console.log(err);
-            else{
-              db.collection(user3).insert(views);
-              res.send({"message":"ok"});
-            }
-          })
-        }
-      }
-    });
-
-});
 
 
 router.post('/deleteCom',function(req,res){
@@ -490,15 +447,44 @@ router.post('/deleteCom',function(req,res){
     if(tokendata){
       decodedToken = tokendata;
       const user=decodedToken.email+'_composed';
-      db.collection(user).deleteMany({subject:req.body.subject},function(err,views){
+      db.collection(user).deleteMany({subject:req.body.subject,message:req.body.message},function(err,views){
         if(err)
           console.log(err);
-        else
+        else{
+          const tr=decodedToken.email+'_trash';
+          db.collection(tr).insertMany(views);
         res.send({"message":"ok"});
+        }
       })
     }
   });
 });
+
+
+
+
+
+router.post('/deletetrash',function(req,res){
+  let token = req.body.token;
+  jwt.verify(token,'secret', function(err, tokendata){
+    if(err){
+      return res.status(400).send({"message":"Unauthorized request"});
+    }
+    if(tokendata){
+      decodedToken = tokendata;
+      const user=decodedToken.email+'_trash';
+      db.collection(user).deleteMany({subject:req.body.subject,message:req.body.message},function(err,views){
+        if(err)
+          console.log(err);
+        else{
+        res.send({"message":"ok"});
+        }
+      })
+    }
+  });
+});
+
+
 
 
 
@@ -514,8 +500,13 @@ router.post('/deleteAcc',function(req,res){
       db.collection('pmail_users').deleteOne({email:user},function(err,us){
         if(err)
         console.log(err);
-        else
+        else{
+          const user1=user+'_recieved';
+          const user2=user+'_composed';
+          db.dropCollection(user1);
+          db.dropCollection(user2);
         res.send({"message":"ok"});
+        }
       })
     }
 })
@@ -539,38 +530,6 @@ function verifyToken(req,res,next){
     }
   })
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
