@@ -84,15 +84,15 @@ var hh = today.getHours(); // => 9
 var mm = today.getMinutes(); // =>  30
 var ss = today.getSeconds();
 var dd = today.getDate();
-var mm = today.getMonth() + 1; //January is 0!
+var mm1 = today.getMonth() + 1; //January is 0!
 var yyyy = today.getFullYear();
 if (dd < 10) {
   dd = '0' + dd;
 }
-if (mm < 10) {
-  mm = '0' + mm;
+if (mm1 < 10) {
+  mm1 = '0' + mm1;
 }
-var today = dd + '/' + mm + '/' + yyyy;
+var today = dd + '/' + mm1 + '/' + yyyy;
 var time = hh + ":" + mm + ":" + ss;
 
   let token = req.body.token;
@@ -310,12 +310,28 @@ var time = hh + ":" + mm + ":" + ss;
 
 
 
-
-
-
-
-
-
+  router.post('/getSeen',function(req,res){
+    let token = req.body.token;
+    jwt.verify(token,'secret', function(err, tokendata){
+      if(err){
+        return res.status(400).send({"message":token});
+      }
+      if(tokendata){
+        decodedToken = tokendata;
+        const user1=decodedToken.email+'_recieved';
+          db.collection(user1).find({seen:true}).toArray(function(err,mail){
+          if(err)
+            console.log(err);
+          else
+          {
+              res.send({"mails":mail});
+          }
+        });
+        
+      }
+    });
+  });
+  
 
 
 
@@ -523,6 +539,52 @@ function verifyToken(req,res,next){
     }
   })
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
