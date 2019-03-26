@@ -429,6 +429,7 @@ router.post('/deleteInb',function(req,res){
           console.log(err);
         else{
           const tr=decodedToken.email+'_trash';
+          
           db.collection(tr).insertOne(views.pop());
         }
       }
@@ -455,18 +456,7 @@ router.post('/deleteCom',function(req,res){
     }
     if(tokendata){
       decodedToken = tokendata;
-      const user=decodedToken.email+'_composed';
-      db.collection(user).find({subject:req.body.subject,message:req.body.message}).toArray(function(err,views){
-        if(err)
-          console.log(err);
-        else{
-          const tr=decodedToken.email+'_trash';
-          db.collection(tr).insertOne(views.pop());
-        }
-      }
-        );
-      
-
+     
       db.collection(user).deleteMany({subject:req.body.subject,message:req.body.message},function(err,views){
         if(err)
           console.log(err);
@@ -479,6 +469,27 @@ router.post('/deleteCom',function(req,res){
 });
 
 
+
+router.post('/gettrash',function(req,res){
+  let token = req.body.token;
+  jwt.verify(token,'secret', function(err, tokendata){
+    if(err){
+      return res.status(400).send({"message":"Unauthorized request"});
+    }
+    if(tokendata){
+      decodedToken = tokendata;
+      const user=decodedToken.email+'_trash';
+      db.collection(user).find().toArray(function(err,views){
+        if(err)
+          console.log(err);
+        else{
+          res.send({"mails":views});
+        }
+      });
+
+    }
+  });
+});
 
 
 
