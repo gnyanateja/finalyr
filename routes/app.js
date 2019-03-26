@@ -423,12 +423,21 @@ router.post('/deleteInb',function(req,res){
     if(tokendata){
       decodedToken = tokendata;
       const user=decodedToken.email+'_recieved';
-      db.collection(user).deleteMany({subject:req.body.subject,message:req.body.message},function(err,views){
+
+      db.collection(user).find({subject:req.body.subject,message:req.body.message}).toArray(function(err,views){
         if(err)
           console.log(err);
         else{
           const tr=decodedToken.email+'_trash';
-          db.collection(tr).insertMany(views);
+          db.collection(tr).insertOne(views.pop());
+        }
+      }
+        );
+
+      db.collection(user).deleteMany({subject:req.body.subject,message:req.body.message},function(err,views){
+        if(err)
+          console.log(err);
+        else{
         res.send({"message":"ok"});
         }
       })
@@ -447,12 +456,21 @@ router.post('/deleteCom',function(req,res){
     if(tokendata){
       decodedToken = tokendata;
       const user=decodedToken.email+'_composed';
-      db.collection(user).deleteMany({subject:req.body.subject,message:req.body.message},function(err,views){
+      db.collection(user).find({subject:req.body.subject,message:req.body.message}).toArray(function(err,views){
         if(err)
           console.log(err);
         else{
           const tr=decodedToken.email+'_trash';
-          db.collection(tr).insertOne(views);
+          db.collection(tr).insertOne(views.pop());
+        }
+      }
+        );
+      
+
+      db.collection(user).deleteMany({subject:req.body.subject,message:req.body.message},function(err,views){
+        if(err)
+          console.log(err);
+        else{
         res.send({"message":"ok"});
         }
       })
