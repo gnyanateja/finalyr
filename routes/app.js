@@ -86,18 +86,24 @@ var ss = today.getSeconds();
 var dd = today.getDate();
 var mm1 = today.getMonth() + 1; //January is 0!
 var yyyy = today.getFullYear();
+mm=mm+30;
+hh=hh+5;
 if (dd < 10) {
   dd = '0' + dd;
 }
 if (mm1 < 10) {
   mm1 = '0' + mm1;
 }
-if(mm>=60){
+if(mm+30>=60){
   hh=hh+1;
-  mm=0;
+  mm=mm-60;
+}
+if(hh>=24){
+  dd=dd+1;
+  hh=hh-24;
 }
 var today = dd + '/' + mm1 + '/' + yyyy;
-var time = (hh+5) + ":" + (mm+30) + ":" + ss;
+var time = (hh) + ":" + (mm) + ":" + ss;
 
   let token = req.body.token;
   jwt.verify(token,'secret', function(err, tokendata){
