@@ -94,7 +94,7 @@ if (dd < 10) {
 if (mm1 < 10) {
   mm1 = '0' + mm1;
 }
-if(mm+30>=60){
+if(mm>=60){
   hh=hh+1;
   mm=mm-60;
 }
@@ -102,7 +102,7 @@ if(hh>=24){
   dd=dd+1;
   hh=hh-24;
 }
-var today = dd + '/' + mm1 + '/' + yyyy;
+var today = dd + '-' + mm1 + '-' + yyyy;
 var time = (hh) + ":" + (mm) + ":" + ss;
 
   let token = req.body.token;
