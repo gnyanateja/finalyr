@@ -92,6 +92,10 @@ if (dd < 10) {
 if (mm1 < 10) {
   mm1 = '0' + mm1;
 }
+if(mm>=60){
+  hh=hh+1;
+  mm=0;
+}
 var today = dd + '/' + mm1 + '/' + yyyy;
 var time = (hh+5) + ":" + (mm+30) + ":" + ss;
 
