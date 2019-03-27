@@ -466,7 +466,7 @@ router.post('/deleteCom',function(req,res){
     }
     if(tokendata){
       decodedToken = tokendata;
-     
+      const user=decodedToken.email+'_composed';
       db.collection(user).deleteMany({subject:req.body.subject,message:req.body.message},function(err,views){
         if(err)
           console.log(err);
