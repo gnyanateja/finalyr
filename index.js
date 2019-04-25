@@ -5,7 +5,7 @@ var app = express();
 
 var cors=require('cors');
 app.use(cors({
-    origin:['https://postmail.herokuapp.com/login']
+    origin:['https://postmail.herokuapp.com']
   }));
 
 // add mongoose
