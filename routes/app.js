@@ -3,8 +3,15 @@ var router = express.Router();
 var User = require('../models/user');
 var jwt = require('jsonwebtoken');
 var mongoose=require('mongoose');
-
-
+const fs = require('fs');
+const readline = require('readline');
+const {google} = require('googleapis');
+var lw=0;
+var nodemailer = require('nodemailer');
+var jwt = require('jsonwebtoken');
+const uuidv4 = require('uuid/v4');
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: true });
 var db=mongoose.connection;
 
 
@@ -31,6 +38,8 @@ router.post('/register',  function(req,res,next){
     return res.status(501).json({message: 'Error registering user.'})
   })
 })
+
+
 
 router.post('/login', function(req,res,next){
   console.log(req.body.email);
@@ -407,6 +416,12 @@ router.post('/email',function(req,res){
 
 })
 
+
+
+
+
+
+
 router.post('/update_pass',function(req,res){
   var mail=req.body.mail;
   db.collection('pmail_users').findAndModify(
@@ -569,6 +584,292 @@ function verifyToken(req,res,next){
     }
   })
 }
+
+
+
+
+
+
+router.post('/addAppointment',(req,res) => {
+  
+     
+      var spd=1;
+      console.log("start appoint ending")
+      checkAppointment(req, res);
+      console.log("last appoint ending")
+  
+  
+
+});
+
+
+
+
+
+
+function checkAppointment(req,res1){
+  console.log("check Appointmennt calling");
+  let count=0;
+  let lw=0;
+  db.collection('appointments').find().toArray( (err,data) => {
+    if(err)
+      res1.json({"code":402,"status":"error in check Appt"});
+    else{
+      data.forEach((x)=>{
+        const start = new Date(x.startTime);
+        const end= new Date(x.endTime);
+       
+       
+        var start1=new Date(req.body.startTime);
+        var end1=new Date(req.body.endTime);
+       
+        var k1=start1-start;
+        var k2=start1-end;
+        var k3=end1-start;
+        
+        if((k1>0 && k2>0) || (k1<0 && k3<0)){
+          lw+=1;
+        }
+        count+=1;
+      })
+      if(lw==count){
+        console.log("hi");
+        addApointment(req,res1);
+      }
+      else{
+        console.log("sending unwanted");
+        res1.json({"code":413,"status":"Appointment already booked"});
+      }
+    }
+  });
+}
+
+
+
+
+
+
+function addApointment(req,res1){
+    console.log("add Appointmennt calling");
+    let token = req.body.token;
+
+    jwt.verify(token,'secret', function(err, tokendata){
+      if(err){
+         res1.status(200).json({"code":402,"message":"Unauthorized request"});
+      }
+      if(tokendata){
+        decodedToken = tokendata;
+        var k=uuidv4()
+        db.collection('appointments').insertOne({
+          email : decodedToken.email,
+          startTime : new Date(req.body.startTime),
+          endTime : new Date(req.body.endTime)
+        });
+
+        db.collection('pmail_users').find({"email":decodedToken.email}).toArray( (err,mail) => {
+                    if(err)
+                        res1.status(200).json({"code":402,"status":"error"});
+                    else{
+                            mail.forEach((x)=>{
+                              var transporter = nodemailer.createTransport({
+                                service : 'gmail',
+                                auth: {
+                                      user: 'narutoteja@gmail.com',
+                                      pass: 'pmail@1234'
+                                  }
+                              });
+                              var dat=new Date(req.body.startTime);
+                              var hr=dat.getHours()+5
+                              var min=dat.getMinutes()+30;
+                              if(min>=60){
+                                min=min-60;
+                                hr+=1;
+                              }
+                            var tim=hr+":"+min;
+                              var datr=dat.toDateString();
+                              
+                              const mailOptions = {
+                                from: 'narutoteja.com', // sender address
+                                to: 'gnyanatejasomanchi@gmail.com', // list of receivers
+                                subject: 'New Appointment Arrived', // Subject line
+                                html: 
+                                "<h3>From "+x.name+" at "+tim+" on "+datr+"</h3><br><p>Please Click here to <a href='https://p-mail.herokuapp.com/accepting/"+decodedToken.email+"'>Accept</a><br><br>Please Click here to <a href='https://biu-backened.herokuapp.com/rejecting/"+decodedToken.email+"'>Reject</a></p>"
+                              }
+                              transporter.sendMail(mailOptions);
+                              res1.json({"code":200,"status":"Added Appointment"});
+                              
+
+                          });
+                        }        
+                      })
+     
+      }
+    })
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+router.get('/accepting/:key', function(req, res){
+ 
+  
+  db.collection('pmail_users').find({"email":req.params.key}).toArray( (err,mail) => {
+    if(err)
+        res.status(200).json({"code":402,"status":"error"});
+    else{
+        mail.forEach((y) => {
+         
+
+                  var html='';
+                  html += "<body style='text-align:center'>"
+                  +"<centre>"
+                      +"<h2>Book it Up!</h2>"
+                      +"<h3>The Appointment request from "+ y.first_name+" "+y.last_name+" has been accepted &#128522;</h3>"
+                  +"</centre>"
+                +"</body>";
+
+                var transporter = nodemailer.createTransport({
+                  service : 'gmail',
+                  auth: {
+                        user: 'narutoteja@gmail.com',
+                        pass: 'pmail@1234'
+                    }
+                });
+               
+                const mailOptions = {
+                  from: 'narutoteja.com', // sender address
+                  to: req.params.key, // list of receivers
+                  subject: 'New Appointment Arrived', // Subject line
+                  html: 
+                  "<h3> Your request for appointment has been accepted by Baskar Sir</h3>"
+                }
+                transporter.sendMail(mailOptions);
+      
+                  res.send(html);
+              
+                })
+              }
+            })
+  })
+
+
+
+
+
+router.get('/rejecting/:key', function(req, res){
+  
+     
+  db.collection('pmail_users').find({"email":req.params.key}).toArray( (err,mail) => {
+    if(err)
+        res.status(200).json({"code":402,"status":"error"});
+    else{
+        mail.forEach((y) => {
+         
+
+                  var html='';
+                  html += "<body style='text-align:center'>"
+                  +"<centre>"
+                      +"<h2>Book it Up!</h2>"
+                      +"<h3>The Appointment request from "+ y.first_name+" "+y.last_name+" has been rejected &#128522;</h3>"
+                  +"</centre>"
+                +"</body>";
+
+                var transporter = nodemailer.createTransport({
+                  service : 'gmail',
+                  auth: {
+                        user: 'narutoteja@gmail.com',
+                        pass: 'pmail@1234'
+                    }
+                });
+               
+                const mailOptions = {
+                  from: 'narutoteja.com', // sender address
+                  to: req.params.key, // list of receivers
+                  subject: 'New Appointment Arrived', // Subject line
+                  html: 
+                  "<h3> Your request for appointment has been rejected by Baskar Sir.Please try to book appointment at another time.</h3>"
+                }
+                transporter.sendMail(mailOptions);
+      
+                  res.send(html);
+              
+                })
+              }
+            })
+});
+
+
+
+
+router.post('/getAppointments',function(req,res){
+
+  let token = req.body.token;
+  let dt="";
+  jwt.verify(token,'secret', function(err, tokendata){
+    if(err){
+       res.status(402).json({"code":402,"message":"Unauthorized request"});
+    }
+    if(tokendata){
+      dt = tokendata;
+      var mysort = { startTime : 1 };
+      db.collection('appointments').find({"email":dt.email}).sort(mysort).toArray( (err,mails) => {
+        if(err)
+          console.log(err);
+        else
+          res.send({"code":200,"appoint":mails});
+    });
+  }
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
