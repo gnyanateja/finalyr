@@ -3,13 +3,10 @@ var router = express.Router();
 var User = require('../models/user');
 var jwt = require('jsonwebtoken');
 var mongoose=require('mongoose');
-var lw=0;
 var nodemailer = require('nodemailer');
 var jwt = require('jsonwebtoken');
-var bodyParser = require('body-parser');
-var urlencodedParser = bodyParser.urlencoded({ extended: true });
 var db=mongoose.connection;
-
+var lw=0;
 
 
 router.post('/register',  function(req,res,next){
