@@ -652,7 +652,6 @@ function addApointment(req,res1){
       }
       if(tokendata){
         decodedToken = tokendata;
-        var k=uuidv4()
         db.collection('appointments').insertOne({
           email : decodedToken.email,
           startTime : new Date(req.body.startTime),
