@@ -677,8 +677,8 @@ function addApointment(req,res1){
                                   }
                               });
                               var dat=new Date(req.body.startTime);
-                              var hr=dat.getHours()+5;
-                              var min=dat.getMinutes()+30;
+                              var hr=dat.getHours();
+                              var min=dat.getMinutes();
                               if(min>=60){
                                 min=min-60;
                                 hr+=1;
@@ -687,7 +687,7 @@ function addApointment(req,res1){
                               var datr=dat.toDateString();
                               console.log(dat+" "+tim);
                               const mailOptions = {
-                                from: 'cognizantlab.com', // sender address
+                                from: 'cognizant.com', // sender address
                                 to: 'gnyanatejasomanchi@gmail.com', // list of receivers
                                 subject: 'New Appointment Arrived', // Subject line
                                 html: 
@@ -737,14 +737,15 @@ router.get('/accepting/:key', function(req, res){
 
                 var transporter = nodemailer.createTransport({
                   service : 'gmail',
+                  host: 'smtp.gmail.com',
                   auth: {
-                    user: 'amudapaperwork@gmail.com',
-                    pass: 'q1w2e3r4t5@'
+                        user: 'narutoteja@gmail.com',
+                        pass: 'amuda@1234'
                     }
                 });
                
                 const mailOptions = {
-                  from: 'cognizantlab.com', // sender address
+                  from: 'narutoteja.com', // sender address
                   to: y.email, // list of receivers
                   subject: 'New Appointment Arrived', // Subject line
                   html: 
@@ -784,13 +785,13 @@ router.get('/rejecting/:key', function(req, res){
                 var transporter = nodemailer.createTransport({
                   service : 'gmail',
                   auth: {
-                    user: 'amudapaperwork@gmail.com',
-                    pass: 'q1w2e3r4t5@'
+                        user: 'narutoteja@gmail.com',
+                        pass: 'amuda@1234'
                     }
                 });
                
                 const mailOptions = {
-                  from: 'cognizantlab.com', // sender address
+                  from: 'narutoteja.com', // sender address
                   to: req.params.key, // list of receivers
                   subject: 'New Appointment Arrived', // Subject line
                   html: 
