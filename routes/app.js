@@ -668,12 +668,12 @@ function addApointment(req,res1){
                                 service : 'gmail',
                                 auth: {
                                       user: 'narutoteja@gmail.com',
-                                      pass: 'pmail@1234'
+                                      pass: 'amuda@1234'
                                   }
                               });
                               var dat=new Date(req.body.startTime);
-                              var hr=dat.getHours()+5
-                              var min=dat.getMinutes()+30;
+                              var hr=dat.getHours();
+                              var min=dat.getMinutes();
                               if(min>=60){
                                 min=min-60;
                                 hr+=1;
@@ -686,7 +686,7 @@ function addApointment(req,res1){
                                 to: 'gnyanatejasomanchi@gmail.com', // list of receivers
                                 subject: 'New Appointment Arrived', // Subject line
                                 html: 
-                                "<h3>From "+x.name+" at "+tim+" on "+datr+"</h3><br><p>Please Click here to <a href='https://p-mail.herokuapp.com/accepting/"+decodedToken.email+"'>Accept</a><br><br>Please Click here to <a href='https://biu-backened.herokuapp.com/rejecting/"+decodedToken.email+"'>Reject</a></p>"
+                                "<h3>From "+x.first_name+" "+x.last_name+" at "+tim+" on "+datr+"</h3><br><p>Please Click here to <a href='https://p-mail.herokuapp.com/accepting/"+decodedToken.email+"'>Accept</a><br><br>Please Click here to <a href='https://biu-backened.herokuapp.com/rejecting/"+decodedToken.email+"'>Reject</a></p>"
                               }
                               transporter.sendMail(mailOptions);
                               res1.json({"code":200,"status":"Added Appointment"});
@@ -721,7 +721,7 @@ router.get('/accepting/:key', function(req, res){
     else{
         mail.forEach((y) => {
          
-
+                  console.log(y);
                   var html='';
                   html += "<body style='text-align:center'>"
                   +"<centre>"
