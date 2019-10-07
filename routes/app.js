@@ -676,7 +676,8 @@ function addApointment(req,res1){
                                       pass: 'qwerty@123'
                                   }
                               });
-                              var dat=req.body.startTime;
+                              var da=req.body.startTime;
+                              var dat=da.split(" ");
                               const mailOptions = {
                                 from: 'cognizant.com', // sender address
                                 to: 'gnyanatejasomanchi@gmail.com', // list of receivers
