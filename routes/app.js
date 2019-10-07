@@ -737,11 +737,7 @@ router.get('/accepting/:key', function(req, res){
 
                 var transporter = nodemailer.createTransport({
                   service : 'gmail',
-                  host: 'smtp.gmail.com',
-                  auth: {
-                        user: 'narutoteja@gmail.com',
-                        pass: 'amuda@1234'
-                    }
+                 
                 });
                
                 const mailOptions = {
@@ -784,10 +780,7 @@ router.get('/rejecting/:key', function(req, res){
 
                 var transporter = nodemailer.createTransport({
                   service : 'gmail',
-                  auth: {
-                        user: 'narutoteja@gmail.com',
-                        pass: 'amuda@1234'
-                    }
+                 
                 });
                
                 const mailOptions = {
