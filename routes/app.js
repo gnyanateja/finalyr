@@ -609,6 +609,7 @@ function checkAppointment(req,res1){
       res1.json({"code":402,"status":"error in check Appt"});
     else{
       data.forEach((x)=>{
+        console.log(x);
         const start = new Date(x.startTime);
         const end= new Date(x.endTime);
        
@@ -654,6 +655,8 @@ function addApointment(req,res1){
       }
       if(tokendata){
         decodedToken = tokendata;
+        console.log(req.body.startTime);
+        console.log(req.body.endTime);
         db.collection('appointments').insertOne({
           email : decodedToken.email,
           startTime : new Date(req.body.startTime),
