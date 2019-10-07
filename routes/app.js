@@ -615,7 +615,7 @@ function checkAppointment(req,res1){
        
         var start1=new Date(req.body.startTime);
         var end1=new Date(req.body.endTime);
-       console.log(start+"    "+end);
+       console.log(req.body.startTime+"    "+req.body.endTime);
        
         var k1=start1-start;
         var k2=start1-end;
