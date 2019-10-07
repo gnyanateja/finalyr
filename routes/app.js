@@ -672,8 +672,8 @@ function addApointment(req,res1){
                               var transporter = nodemailer.createTransport({
                                 service : 'gmail',
                                 auth: {
-                                      user: 'narutoteja@gmail.com',
-                                      pass: 'amuda@1234'
+                                      user: 'cognizantlanamrita@gmail.com',
+                                      pass: 'qwerty@123'
                                   }
                               });
                               var dat=new Date(req.body.startTime);
@@ -737,7 +737,10 @@ router.get('/accepting/:key', function(req, res){
 
                 var transporter = nodemailer.createTransport({
                   service : 'gmail',
-                 
+                  auth: {
+                    user: 'cognizantlanamrita@gmail.com',
+                    pass: 'qwerty@123'
+                }
                 });
                
                 const mailOptions = {
@@ -780,7 +783,10 @@ router.get('/rejecting/:key', function(req, res){
 
                 var transporter = nodemailer.createTransport({
                   service : 'gmail',
-                 
+                  auth: {
+                    user: 'cognizantlanamrita@gmail.com',
+                    pass: 'qwerty@123'
+                }
                 });
                
                 const mailOptions = {
