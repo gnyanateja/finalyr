@@ -742,7 +742,7 @@ router.get('/accepting/:key', function(req, res){
                
                 const mailOptions = {
                   from: 'narutoteja.com', // sender address
-                  to: req.params.key, // list of receivers
+                  to: y.email, // list of receivers
                   subject: 'New Appointment Arrived', // Subject line
                   html: 
                   "<h3> Your request for appointment has been accepted by Baskar Sir</h3>"
