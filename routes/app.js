@@ -668,6 +668,7 @@ function addApointment(req,res1){
                             mail.forEach((x)=>{
                               var transporter = nodemailer.createTransport({
                                 service : 'gmail',
+                                host: 'smtp.gmail.com',
                                 auth: {
                                       user: 'narutoteja@gmail.com',
                                       pass: 'amuda@1234'
@@ -734,6 +735,7 @@ router.get('/accepting/:key', function(req, res){
 
                 var transporter = nodemailer.createTransport({
                   service : 'gmail',
+                  host: 'smtp.gmail.com',
                   auth: {
                         user: 'narutoteja@gmail.com',
                         pass: 'amuda@1234'
