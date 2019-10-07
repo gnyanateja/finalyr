@@ -734,7 +734,7 @@ router.get('/accepting/:key', function(req, res){
                   service : 'gmail',
                   auth: {
                         user: 'narutoteja@gmail.com',
-                        pass: 'pmail@1234'
+                        pass: 'amuda@1234'
                     }
                 });
                
@@ -780,7 +780,7 @@ router.get('/rejecting/:key', function(req, res){
                   service : 'gmail',
                   auth: {
                         user: 'narutoteja@gmail.com',
-                        pass: 'pmail@1234'
+                        pass: 'amuda@1234'
                     }
                 });
                
