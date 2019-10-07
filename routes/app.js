@@ -662,6 +662,7 @@ function addApointment(req,res1){
                     if(err)
                         res1.status(200).json({"code":402,"status":"error"});
                     else{
+
                             mail.forEach((x)=>{
                               var transporter = nodemailer.createTransport({
                                 service : 'gmail',
@@ -679,7 +680,7 @@ function addApointment(req,res1){
                               }
                             var tim=hr+":"+min;
                               var datr=dat.toDateString();
-                              
+                              console.log(dat+" "+tim);
                               const mailOptions = {
                                 from: 'narutoteja.com', // sender address
                                 to: 'gnyanatejasomanchi@gmail.com', // list of receivers
