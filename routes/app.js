@@ -671,10 +671,9 @@ function addApointment(req,res1){
                             mail.forEach((x)=>{
                               var transporter = nodemailer.createTransport({
                                 service : 'gmail',
-                                host: 'smtp.gmail.com',
                                 auth: {
-                                      user: 'narutoteja@gmail.com',
-                                      pass: 'amuda@1234'
+                                      user: 'amudapaperwork@gmail.com',
+                                      pass: 'q1w2e3r4t5@'
                                   }
                               });
                               var dat=new Date(req.body.startTime);
