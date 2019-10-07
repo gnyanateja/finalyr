@@ -676,22 +676,13 @@ function addApointment(req,res1){
                                       pass: 'qwerty@123'
                                   }
                               });
-                              var dat=new Date(req.body.startTime);
-                              var hr=dat.getHours()+5;
-                              var min=dat.getMinutes()+30;
-                              if(min>=60){
-                                min=min-60;
-                                hr+=1;
-                              }
-                            var tim=hr+":"+min;
-                              var datr=dat.toDateString();
-                              console.log(dat+" "+tim);
+                              var dat=req.body.startTime;
                               const mailOptions = {
                                 from: 'cognizant.com', // sender address
                                 to: 'gnyanatejasomanchi@gmail.com', // list of receivers
                                 subject: 'New Appointment Arrived', // Subject line
                                 html: 
-                                "<h3>From "+x.first_name+" "+x.last_name+" at "+tim+" on "+datr+"</h3><br><p>Please Click here to <a href='https://p-mail.herokuapp.com/accepting/"+decodedToken.email+"'>Accept</a><br><br>Please Click here to <a href='https://p-mail.herokuapp.com/rejecting/"+decodedToken.email+"'>Reject</a></p>"
+                                "<h3>From "+x.first_name+" "+x.last_name+" at "+dat[1]+" on "+dat[0]+"</h3><br><p>Please Click here to <a href='https://p-mail.herokuapp.com/accepting/"+decodedToken.email+"'>Accept</a><br><br>Please Click here to <a href='https://p-mail.herokuapp.com/rejecting/"+decodedToken.email+"'>Reject</a></p>"
                               }
                               transporter.sendMail(mailOptions);
                               res1.json({"code":200,"status":"Added Appointment"});
