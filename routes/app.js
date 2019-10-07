@@ -677,8 +677,8 @@ function addApointment(req,res1){
                                   }
                               });
                               var dat=new Date(req.body.startTime);
-                              var hr=dat.getHours();
-                              var min=dat.getMinutes();
+                              var hr=dat.getHours()+5;
+                              var min=dat.getMinutes()+30;
                               if(min>=60){
                                 min=min-60;
                                 hr+=1;
