@@ -672,8 +672,8 @@ function addApointment(req,res1){
                               var transporter = nodemailer.createTransport({
                                 service : 'gmail',
                                 auth: {
-                                      user: 'amudapaperwork@gmail.com',
-                                      pass: 'q1w2e3r4t5@'
+                                      user: 'narutoteja@gmail.com',
+                                      pass: 'amuda@1234'
                                   }
                               });
                               var dat=new Date(req.body.startTime);
