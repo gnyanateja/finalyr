@@ -615,10 +615,12 @@ function checkAppointment(req,res1){
        
         var start1=new Date(req.body.startTime);
         var end1=new Date(req.body.endTime);
+       console.log(start+"    "+end);
        
         var k1=start1-start;
         var k2=start1-end;
         var k3=end1-start;
+        console.log(start1+"    "+end1);
         
         if((k1>0 && k2>0) || (k1<0 && k3<0)){
           lw+=1;
