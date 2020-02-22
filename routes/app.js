@@ -647,55 +647,45 @@ function checkAppointment(req,res1){
 
 function addApointment(req,res1){
     console.log("add Appointmennt calling");
-    let token = req.body.token;
-
-    jwt.verify(token,'secret', function(err, tokendata){
-      if(err){
-         res1.status(200).json({"code":402,"message":"Unauthorized request"});
-      }
-      if(tokendata){
-        decodedToken = tokendata;
+    
         console.log(req.body.startTime);
         console.log(req.body.endTime);
         db.collection('appointments').insertOne({
-          email : decodedToken.email,
           startTime : new Date(req.body.startTime),
           endTime : new Date(req.body.endTime)
         });
 
-        db.collection('pmail_users').find({"email":decodedToken.email}).toArray( (err,mail) => {
-                    if(err)
-                        res1.status(200).json({"code":402,"status":"error"});
-                    else{
+        // db.collection('pmail_users').find({"email":decodedToken.email}).toArray( (err,mail) => {
+        //             if(err)
+        //                 res1.status(200).json({"code":402,"status":"error"});
+        //             else{
 
-                            mail.forEach((x)=>{
-                              var transporter = nodemailer.createTransport({
-                                service : 'gmail',
-                                auth: {
-                                      user: 'cognizantlanamrita@gmail.com',
-                                      pass: 'qwerty@123'
-                                  }
-                              });
-                              var da=req.body.startTime;
-                              var dat=da.split(" ");
-                              const mailOptions = {
-                                from: 'cognizant.com', // sender address
-                                to: 'gnyanatejasomanchi@gmail.com', // list of receivers
-                                subject: 'New Appointment Arrived', // Subject line
-                                html: 
-                                "<h3>From "+x.first_name+" "+x.last_name+" at "+dat[1]+" on "+dat[0]+"</h3><br><p>Please Click here to <a href='https://p-mail.herokuapp.com/accepting/"+decodedToken.email+"'>Accept</a><br><br>Please Click here to <a href='https://p-mail.herokuapp.com/rejecting/"+decodedToken.email+"'>Reject</a></p>"
-                              }
-                              transporter.sendMail(mailOptions);
-                              res1.json({"code":200,"status":"Added Appointment"});
+        //                     mail.forEach((x)=>{
+        //                       var transporter = nodemailer.createTransport({
+        //                         service : 'gmail',
+        //                         auth: {
+        //                               user: 'cognizantlanamrita@gmail.com',
+        //                               pass: 'qwerty@123'
+        //                           }
+        //                       });
+        //                       var da=req.body.startTime;
+        //                       var dat=da.split(" ");
+        //                       const mailOptions = {
+        //                         from: 'cognizant.com', // sender address
+        //                         to: 'gnyanatejasomanchi@gmail.com', // list of receivers
+        //                         subject: 'New Appointment Arrived', // Subject line
+        //                         html: 
+        //                         "<h3>From "+x.first_name+" "+x.last_name+" at "+dat[1]+" on "+dat[0]+"</h3><br><p>Please Click here to <a href='https://p-mail.herokuapp.com/accepting/"+decodedToken.email+"'>Accept</a><br><br>Please Click here to <a href='https://p-mail.herokuapp.com/rejecting/"+decodedToken.email+"'>Reject</a></p>"
+        //                       }
+        //                       transporter.sendMail(mailOptions);
+        //                       res1.json({"code":200,"status":"Added Appointment"});
                               
 
-                          });
-                        }        
-                      })
+        //                   });
+        //                 }        
+        //               })
      
-      }
-    })
-    
+  
 }
 
 
@@ -811,7 +801,7 @@ router.post('/getAppointments',function(req,res){
     if(tokendata){
       dt = tokendata;
       var mysort = { startTime : 1 };
-      db.collection('appointments').find({"email":dt.email}).sort(mysort).toArray( (err,mails) => {
+      db.collection('appointments').find({}).sort(mysort).toArray( (err,mails) => {
         if(err)
           console.log(err);
         else
