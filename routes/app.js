@@ -792,23 +792,15 @@ router.get('/rejecting/:key', function(req, res){
 
 router.post('/getAppointments',function(req,res){
 
-  let token = req.body.token;
-  let dt="";
-  jwt.verify(token,'secret', function(err, tokendata){
-    if(err){
-       res.status(402).json({"code":402,"message":"Unauthorized request"});
-    }
-    if(tokendata){
-      dt = tokendata;
+  
       var mysort = { startTime : 1 };
       db.collection('appointments').find({}).sort(mysort).toArray( (err,mails) => {
         if(err)
           console.log(err);
         else
-          res.send({"code":200,"appoint":mails});
+          res.send({"status":200,"appoint":mails});
     });
-  }
-  })
+ 
 })
 
 
