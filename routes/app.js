@@ -654,7 +654,7 @@ function addApointment(req,res1){
           startTime : new Date(req.body.startTime),
           endTime : new Date(req.body.endTime)
         });
-
+        res1.json({"status":200});
         // db.collection('pmail_users').find({"email":decodedToken.email}).toArray( (err,mail) => {
         //             if(err)
         //                 res1.status(200).json({"code":402,"status":"error"});
