@@ -3,10 +3,11 @@ const PORT = process.env.PORT || 5000
 var usersRouter = require('./routes/app');
 var app = express();
 
-var cors=require('cors');
-app.use(cors({
-    origin:['https://postmail.herokuapp.com']
-  }));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // add mongoose
  var mongoose = require('mongoose');
