@@ -664,14 +664,14 @@ function addApointment(req,res1){
                               var transporter = nodemailer.createTransport({
                                 service : 'gmail',
                                 auth: {
-                                      user: 'cognizantlanamrita@gmail.com',
+                                      user: 'cognizantrobo@gmail.com',
                                       pass: 'qwerty@123'
                                   }
                               });
                               var da=req.body.startTime;
                               var dat=da.split(" ");
                               const mailOptions = {
-                                from: 'cognizant.com', // sender address
+                                from: 'cognizantrobo@gmail.com', // sender address
                                 to: 'gokulkishan.krs@gmail.com', // list of receivers
                                 subject: 'New Appointment Arrived', // Subject line
                                 html: 
