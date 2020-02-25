@@ -609,7 +609,7 @@ function checkAppointment(req,res1){
       res1.json({"code":402,"status":"error in check Appt"});
     else{
       data.forEach((x)=>{
-        console.log(x);
+        console.log("hi");
         const start = new Date(x.startTime);
         const end= new Date(x.endTime);
        
@@ -617,7 +617,8 @@ function checkAppointment(req,res1){
         var start1=new Date(req.body.startTime);
         var end1=new Date(req.body.endTime);
        console.log(req.body.startTime+"    "+req.body.endTime);
-       
+       console.log(start);
+       console.log(start1);
         var k1=start1-start;
         var k2=start1-end;
         var k3=end1-start;
