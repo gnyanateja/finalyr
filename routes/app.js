@@ -654,37 +654,33 @@ function addApointment(req,res1){
           startTime : new Date(req.body.startTime),
           endTime : new Date(req.body.endTime)
         });
-        res1.json({"status":200});
         // db.collection('pmail_users').find({"email":decodedToken.email}).toArray( (err,mail) => {
         //             if(err)
         //                 res1.status(200).json({"code":402,"status":"error"});
         //             else{
 
         //                     mail.forEach((x)=>{
-        //                       var transporter = nodemailer.createTransport({
-        //                         service : 'gmail',
-        //                         auth: {
-        //                               user: 'cognizantlanamrita@gmail.com',
-        //                               pass: 'qwerty@123'
-        //                           }
-        //                       });
-        //                       var da=req.body.startTime;
-        //                       var dat=da.split(" ");
-        //                       const mailOptions = {
-        //                         from: 'cognizant.com', // sender address
-        //                         to: 'gnyanatejasomanchi@gmail.com', // list of receivers
-        //                         subject: 'New Appointment Arrived', // Subject line
-        //                         html: 
-        //                         "<h3>From "+x.first_name+" "+x.last_name+" at "+dat[1]+" on "+dat[0]+"</h3><br><p>Please Click here to <a href='https://p-mail.herokuapp.com/accepting/"+decodedToken.email+"'>Accept</a><br><br>Please Click here to <a href='https://p-mail.herokuapp.com/rejecting/"+decodedToken.email+"'>Reject</a></p>"
-        //                       }
-        //                       transporter.sendMail(mailOptions);
-        //                       res1.json({"code":200,"status":"Added Appointment"});
-                              
-
+                              var transporter = nodemailer.createTransport({
+                                service : 'gmail',
+                                auth: {
+                                      user: 'cognizantlanamrita@gmail.com',
+                                      pass: 'qwerty@123'
+                                  }
+                              });
+                              var da=req.body.startTime;
+                              var dat=da.split(" ");
+                              const mailOptions = {
+                                from: 'cognizant.com', // sender address
+                                to: 'gokulkishan.krs@gmail.com', // list of receivers
+                                subject: 'New Appointment Arrived', // Subject line
+                                html: 
+                                "<h3>An appointment has been booked by a guest  at "+dat[1]+" on "+dat[0]+"</h3>"
+                              }
+                              transporter.sendMail(mailOptions);
+                              res1.json({"status":200,"code":"Added Appointment"});
         //                   });
         //                 }        
-        //               })
-     
+        //               })   
   
 }
 
