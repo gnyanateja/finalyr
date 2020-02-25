@@ -635,7 +635,7 @@ function checkAppointment(req,res1){
       }
       else{
         console.log("sending unwanted");
-        res1.json({"status":413,"status":"Appointment already booked"});
+        res1.json({"status":413,"code":"Appointment already booked"});
       }
     }
   });
