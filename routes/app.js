@@ -642,6 +642,24 @@ function checkAppointment(req,res1){
 }
 
 
+router.get('/hello',(req,res) => {
+  var transporter = nodemailer.createTransport({
+    service : 'gmail',
+    auth: {
+          user: 'cognizantrobo@gmail.com',
+          pass: 'qwerty@123'
+      }
+  });
+  const mailOptions = {
+    from: 'cognizantrobo@gmail.com', // sender address
+    to: 'gokulkishan.krs@gmail.com', // list of receivers
+    subject: 'New Appointment Arrived', // Subject line
+    html: 
+    "<h3>An appointment has been booked by a guest  at </h3>"
+  }
+  transporter.sendMail(mailOptions);
+  res.json({"status":200,"code":"Added Appointment"});
+})
 
 
 
