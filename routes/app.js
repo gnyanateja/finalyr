@@ -645,6 +645,9 @@ function checkAppointment(req,res1){
 router.get('/hello',(req,res) => {
   var transporter = nodemailer.createTransport({
     service : 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
           user: 'cognizantrobo@gmail.com',
           pass: 'qwerty@123'
