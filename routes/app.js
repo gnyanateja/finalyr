@@ -649,12 +649,12 @@ router.get('/hello',(req,res) => {
     port: 465,
     secure: true,
     auth: {
-          user: 'cognizantrobo@gmail.com',
-          pass: 'qwerty@123'
+          user: 'cognizantlabappointments@gmail.com',
+          pass: 'Cognizant@123'
       }
   });
   const mailOptions = {
-    from: 'cognizantrobo@gmail.com', // sender address
+    from: 'cognizantlabappointments@gmail.com', // sender address
     to: 'gokulkishan.krs@gmail.com', // list of receivers
     subject: 'New Appointment Arrived', // Subject line
     html: 
@@ -685,14 +685,14 @@ function addApointment(req,res1){
                               var transporter = nodemailer.createTransport({
                                 service : 'gmail',
                                 auth: {
-                                      user: 'cognizantrobo@gmail.com',
-                                      pass: 'qwerty@123'
+                                      user: 'cognizantlabappointments@gmail.com',
+                                      pass: 'Cognizant@123'
                                   }
                               });
                               var da=req.body.startTime;
                               var dat=da.split(" ");
                               const mailOptions = {
-                                from: 'cognizantrobo@gmail.com', // sender address
+                                from: 'cognizantlabappointments@gmail.com', // sender address
                                 to: 'gokulkishan.krs@gmail.com', // list of receivers
                                 subject: 'New Appointment Arrived', // Subject line
                                 html: 
@@ -739,7 +739,7 @@ router.get('/accepting/:key', function(req, res){
                   service : 'gmail',
                   auth: {
                     user: 'cognizantlanamrita@gmail.com',
-                    pass: 'qwerty@123'
+                    pass: 'Cognizant@123'
                 }
                 });
                
@@ -785,7 +785,7 @@ router.get('/rejecting/:key', function(req, res){
                   service : 'gmail',
                   auth: {
                     user: 'cognizantlanamrita@gmail.com',
-                    pass: 'qwerty@123'
+                    pass: 'Cognizant@123'
                 }
                 });
                
